@@ -21,7 +21,7 @@ exports.register = async (req, res, next) => {
             }
         });
     } catch (err) {
-      //  console.log("User Not Created!!!");
+        //  console.log("User Not Created!!!");
         res.status(400).json({
             success: false,
             message: "User Not Created!!!",
@@ -84,7 +84,6 @@ exports.deleteUser = async (req, res) => {
         if (!user) {
             console.log("User not Found")
         }
-
         res.status(200).json({
             success: true,
             message: `User Deleted with email id ${email}`

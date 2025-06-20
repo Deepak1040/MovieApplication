@@ -1,6 +1,6 @@
 const express = require('express')
 const { register, getAllUser, updateUser, deleteUser } = require('../controller/UserController')
-
+const { protect } = require('../middleware/authMiddleware');
 
 const router = express.Router()
 router.post('/register', register)

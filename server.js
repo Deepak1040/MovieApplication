@@ -1,6 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
-require('dotenv').config(); // To read .env file
+require('dotenv').config();
 
 const app = express();
 app.use(express.json());
@@ -24,6 +24,7 @@ app.listen(process.env.PORT, () => {
 
 app.use('/api/v1/users', require('./routes/User'));
 app.use('/api/v1/theater', require('./routes/Theater'));
+app.use('/api/v1/movie', require('./routes/Movie'));
 
 
 

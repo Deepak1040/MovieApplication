@@ -1,12 +1,13 @@
 const express = require('express')
-const { register, getAllUser, updateUser, deleteUser } = require('../controller/UserController')
+const { register, getAllUser, updateUser, deleteUser, getUserById } = require('../controller/UserController')
 const { protect } = require('../middleware/authMiddleware');
 
 const router = express.Router()
-router.post('/register', register)
-router.get('/', getAllUser)
-router.put('/updateDetails/:id', updateUser)
-router.delete('/deleteUser/:email', deleteUser)
+router.post('/register', register);
+router.get('/users', getAllUser);
+router.get('/getuser/:id', getUserById);
+router.put('/updateuser/:id', updateUser);
+router.delete('/deleteuser/:email', deleteUser);
 
 
 

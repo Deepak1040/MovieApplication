@@ -51,29 +51,34 @@ exports.getAllUser = async (request, response) => {
 
 // update user is not working need to change the logic
 exports.updateUser = async (request, response) => {
-    try {
-        const id = request.params;
-        const user = User.findByIdAndUpdate(id, request.body)
-        if (!user) {
-            console.log("User not Found");
-            response.status(400).json({
-                success: false,
-                message: "User Not Found!!!"
-            })
-        }
-        response.status(200).json({
-            success: true,
-            message: "User Details Updated",
-            data: user
-        })
-    } catch (err) {
-        console.log("User Not found !!");
-        response.status(400).json({
-            success: false,
-            message: "User Details not Found"
-        })
+  try {
+    const { id } = request.params;
+
+    const user = await User.findByIdAndUpdate(id, request.body, {
+      new: true,
+      runValidators: true
+    });
+
+    if (!user) {
+      return response.status(404).json({
+        success: false,
+        message: "User Not Found!"
+      });
     }
-}
+
+    response.status(200).json({
+      success: true,
+      message: "User Details Updated",
+      data: user
+    });
+  } catch (err) {
+    response.status(500).json({
+      success: false,
+      message: "Error updating user",
+      error: err.message
+    });
+  }
+};
 
 
 exports.deleteUser = async (request, response) => {
@@ -98,3 +103,25 @@ exports.deleteUser = async (request, response) => {
     }
 }
 
+exports.getUserById = async (request, response) => {
+    try {
+        const id = request.params.id;
+        const user = await User.findById(id);
+
+        if (!user) {
+            console.log("User Not Found");
+        }
+
+        response.status(200).json({
+            success: true,
+            message: "User Found",
+            data: user
+        })
+
+    } catch (error) {
+        response.status(400).json({
+            success: false,
+            message: "User not Found!!"
+        })
+    }
+}

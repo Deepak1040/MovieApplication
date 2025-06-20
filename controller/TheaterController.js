@@ -1,3 +1,4 @@
+const { request } = require('express');
 const Theater = require('../models/Theater');
 
 exports.createTheater = async (request, response) => {
@@ -63,6 +64,54 @@ exports.updateTheater = async (request, response) => {
         response.status(400).json({
             success: false,
             message: "Theater Not Updated"
+        })
+    }
+}
+
+
+
+exports.getTheaterById = async (request, response) => {
+    try {
+        const id = request.params.id;
+        const theater = await Theater.findById(id);
+
+        if (!theater) {
+            console.log("Theater Not Found");
+        }
+
+        response.status(200).json({
+            success: true,
+            message: "Theater Found",
+            data: user
+        })
+
+    } catch (error) {
+        response.status(400).json({
+            success: false,
+            message: "Theater not Found!!"
+        })
+    }
+}
+
+exports.deleteTheater = async (request, response) => {
+    try {
+        const id = request.params.id;
+        const theater = await Theater.findById(id);
+
+        if (!theater) {
+            console.log("Theater Not Deleted")
+        }
+
+        response.status(204).json({
+            success: true,
+            message: `${theater.name} theater Deleted`
+        })
+
+    } catch (error) {
+        console.log("Theater not Deleted");
+        response.status(400).json({
+            success: false,
+            message: "Theater Not Found"
         })
     }
 }

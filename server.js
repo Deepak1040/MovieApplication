@@ -23,3 +23,14 @@ mongoose.connect(process.env.MONGO_URI, {
 app.listen(process.env.PORT, () => {
   console.log(`🚀 Server started on http://localhost:${process.env.PORT}`);
 });
+
+
+const http = require('http')
+
+const server = http.createServer((request,response) =>{
+  console.log("A new Request");
+  
+});
+
+server.listen(8000)
+

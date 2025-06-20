@@ -49,35 +49,34 @@ exports.getAllUser = async (request, response) => {
 }
 
 
-// update user is not working need to change the logic
 exports.updateUser = async (request, response) => {
-  try {
-    const { id } = request.params;
+    try {
+        const { id } = request.params;
 
-    const user = await User.findByIdAndUpdate(id, request.body, {
-      new: true,
-      runValidators: true
-    });
+        const user = await User.findByIdAndUpdate(id, request.body, {
+            new: true,
+            runValidators: true
+        });
 
-    if (!user) {
-      return response.status(404).json({
-        success: false,
-        message: "User Not Found!"
-      });
+        if (!user) {
+            return response.status(404).json({
+                success: false,
+                message: "User Not Found!"
+            });
+        }
+
+        response.status(200).json({
+            success: true,
+            message: "User Details Updated",
+            data: user
+        });
+    } catch (err) {
+        response.status(500).json({
+            success: false,
+            message: "Error updating user",
+            error: err.message
+        });
     }
-
-    response.status(200).json({
-      success: true,
-      message: "User Details Updated",
-      data: user
-    });
-  } catch (err) {
-    response.status(500).json({
-      success: false,
-      message: "Error updating user",
-      error: err.message
-    });
-  }
 };
 
 

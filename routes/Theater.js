@@ -7,7 +7,7 @@ const { protect } = require('../middleware/authMiddleware');
 const router = express.Router()
 router.get('/theaters', getAllTheater);
 router.post('/createtheater', createTheater);
-router.put('/updatetheater', updateTheater);
+router.put('/updatetheater/:id', updateTheater);
 router.get('/gettheater/:id', getTheaterById);
 router.delete('/deletetheater/:id', deleteTheater);
 

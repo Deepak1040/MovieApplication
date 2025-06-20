@@ -45,9 +45,12 @@ exports.getAllTheater = async (request, response) => {
 
 exports.updateTheater = async (request, response) => {
     try {
-        const id = request.params;
+        const id = request.params.id;
+        const theater = await Theater.findByIdAndUpdate(id, request.body, {
+            new: true,
+            runValidators: true
+        });
 
-        const theater = Theater.findByIdAndUpdate(id, request.body);
         if (!theater) {
             response.status(400).json({
                 succes: false,
@@ -82,13 +85,14 @@ exports.getTheaterById = async (request, response) => {
         response.status(200).json({
             success: true,
             message: "Theater Found",
-            data: user
+            data: theater
         })
 
     } catch (error) {
-        response.status(400).json({
+        response.status(500).json({
             success: false,
-            message: "Theater not Found!!"
+            message: "Theater not Found!!",
+            error: error.message
         })
     }
 }
@@ -96,13 +100,13 @@ exports.getTheaterById = async (request, response) => {
 exports.deleteTheater = async (request, response) => {
     try {
         const id = request.params.id;
-        const theater = await Theater.findById(id);
+        const theater = await Theater.findByIdAndDelete(id);
 
         if (!theater) {
             console.log("Theater Not Deleted")
         }
 
-        response.status(204).json({
+        response.status(200).json({
             success: true,
             message: `${theater.name} theater Deleted`
         })

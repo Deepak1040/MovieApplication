@@ -36,7 +36,7 @@ exports.getAllUser = async (req, res) => {
         res.status(200).json({
             success: true,
             message: "Fetching All User Data",
-            data:user
+            data: user
         })
 
     } catch (error) {
@@ -48,4 +48,49 @@ exports.getAllUser = async (req, res) => {
     }
 }
 
+// update user is not working need to change the logic
+exports.updateUser = async (req, res) => {
+    try {
+        const email = req.body;
+        console.log(email)
+        const user = await User.findOneAndUpdate(
+            { email },
+            { mobileNumber },
+            { new: true, runValidators: true }
+        )
+        if (!user) {
+            console.log("User not Found");
+            res.status(400).json({
+                success: false,
+                message: "User Not Found!!!"
+            })
+        }
+        res.status(200).json({
+            success: true,
+            message: "User Details Updated",
+            data: user
+        })
+    } catch (err) {
+        console.log("User Not found !!");
+        res.status(400).json({
+            success: false,
+            message: "User Details not Found"
+        })
+    }
+}
+
+
+exports.deleteUser = async (req, res) => {
+    try {
+        const email = req.body;
+
+        const user = await User.findOneAndDelete({ email })
+
+    } catch (err) {
+        res.status(400).json({
+            success: false,
+            message: "User not Deleted!!"
+        })
+    }
+}
 

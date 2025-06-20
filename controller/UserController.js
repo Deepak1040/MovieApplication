@@ -21,7 +21,7 @@ exports.register = async (req, res, next) => {
             }
         });
     } catch (err) {
-        console.log("User Not Created!!!");
+      //  console.log("User Not Created!!!");
         res.status(400).json({
             success: false,
             message: "User Not Created!!!",
@@ -51,13 +51,8 @@ exports.getAllUser = async (req, res) => {
 // update user is not working need to change the logic
 exports.updateUser = async (req, res) => {
     try {
-        const email = req.body;
-        console.log(email)
-        const user = await User.findOneAndUpdate(
-            { email },
-            { mobileNumber },
-            { new: true, runValidators: true }
-        )
+        const id = req.params;
+        const user = User.findByIdAndUpdate(id, req.body)
         if (!user) {
             console.log("User not Found");
             res.status(400).json({
@@ -82,9 +77,18 @@ exports.updateUser = async (req, res) => {
 
 exports.deleteUser = async (req, res) => {
     try {
-        const email = req.body;
+        const email = req.params.email;
 
         const user = await User.findOneAndDelete({ email })
+
+        if (!user) {
+            console.log("User not Found")
+        }
+
+        res.status(200).json({
+            success: true,
+            message: `User Deleted with email id ${email}`
+        })
 
     } catch (err) {
         res.status(400).json({

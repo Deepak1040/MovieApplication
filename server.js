@@ -7,6 +7,11 @@ const user =require('./routes/User')
 const app = express();
 app.use(express.json());
 
+const { swaggerUi, swaggerSpec } = require('./swagger');
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+
+
 mongoose.connect(process.env.MONGO_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true
@@ -14,7 +19,6 @@ mongoose.connect(process.env.MONGO_URI, {
 .then(() => console.log("✅ MongoDB connected"))
 .catch(err => console.error("❌ MongoDB connection error:", err));
 
-app.use('/user',user)
 
 app.listen(process.env.PORT, () => {
   console.log(`🚀 Server started on http://localhost:${process.env.PORT}`);

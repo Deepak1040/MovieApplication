@@ -24,6 +24,10 @@ const theaterSchema = new mongoose.Schema({
         type: Date,
         default: Date.now
     },
+    movies: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Movie'
+    }]
 });
 
 const Theater = mongoose.model('Theater', theaterSchema);

@@ -1,4 +1,3 @@
-const { request } = require('express');
 const Theater = require('../models/Theater');
 
 exports.createTheater = async (request, response) => {

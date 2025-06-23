@@ -1,52 +1,108 @@
 const User = require('../models/User')
+const validateUser = require('../middleware/validateUser');
 
-exports.register = async (request, response, next) => {
+// exports.register = async (request, response, next) => {
+//     try {
+//        // const { firstName, lastName, password, email, mobileNumber } = request.body;
+
+//         const { error, data } = validateUser.validate(request.body);
+
+//         const user = null;
+//         if (error) {
+//             response.status(400).json({
+//                 success: false,
+//                 message: "User Not Created!!!",
+//                 error: error.message
+//             })
+//         } else {
+//             user = await User.create(data)
+//         }
+
+//         response.status(201).json({
+//             success: true,
+//             message: "User created Successfully!!!!",
+//             data: {
+//                 id: user._id,
+//                 firstName: user.firstName,
+//                 email: user.email
+//             }
+//         });
+
+
+//     } catch (error) {
+//         //  console.log("User Not Created!!!");
+//         response.status(400).json({
+//             success: false,
+//             message: "User Not Created!!!",
+//             error: err.message
+//         })
+//     }
+// }
+
+// exports.getAllUser = async (request, response) => {
+//     try {
+//         const user = await User.find()
+//         response.status(200).json({
+//             success: true,
+//             message: "Fetching All User Data",
+//             data: user
+//         })
+
+//     } catch (error) {
+//         console.log("Error in fetching User Details");
+//         response.status(400).json({
+//             success: false,
+//             message: "Error  fetching Data!!"
+//         })
+//     }
+// }
+
+
+
+exports.register = async (req, res) => {
     try {
-        const { firstName, lastName, password, email, mobileNumber } = request.body;
+        const { error, value } = validateUser.validate(req.body);
 
-        const user = await User.create({
-            firstName,
-            lastName,
-            email,
-            password,
-            mobileNumber
-        })
-        response.status(201).json({
+        // Validation failed
+        if (error) {
+            return res.status(400).json({
+                success: false,
+                message: "Validation failed",
+                error: error.details[0].message
+            });
+        }
+
+        // Check if email already exists (optional but good practice)
+        const existingUser = await User.findOne({ email: value.email });
+        if (existingUser) {
+            return res.status(400).json({
+                success: false,
+                message: "Email already registered"
+            });
+        }
+
+        // Create the user
+        const user = await User.create(value);
+
+        // Send success response
+        res.status(201).json({
             success: true,
-            message: "User created Successfully!!!!",
+            message: "User created successfully!",
             data: {
                 id: user._id,
                 firstName: user.firstName,
                 email: user.email
             }
         });
-    } catch (err) {
-        //  console.log("User Not Created!!!");
-        response.status(400).json({
-            success: false,
-            message: "User Not Created!!!",
-            error: err.message
-        })
-    }
-}
-
-exports.getAllUser = async (request, response) => {
-    try {
-        const user = await User.find()
-        response.status(200).json({
-            success: true,
-            message: "Fetching All User Data",
-            data: user
-        })
-
     } catch (error) {
-        console.log("Error in fetching User Details");
-        response.status(400).json({
+        res.status(500).json({
             success: false,
-            message: "Error  fetching Data!!"
-        })
+            message: "Server error",
+            error: error.message
+        });
     }
-}
+};
+
 
 
 exports.updateUser = async (request, response) => {

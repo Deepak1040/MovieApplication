@@ -1,5 +1,5 @@
 const User = require('../models/User')
-const validateUser = require('../middleware/validateUser');
+const validation = require('../middleware/validation')
 
 // exports.register = async (request, response, next) => {
 //     try {
@@ -58,10 +58,29 @@ const validateUser = require('../middleware/validateUser');
 // }
 
 
+exports.getAllUser = async (req, res) => {
+    try {
+        const user = await User.find()
+        res.status(200).json({
+            success: true,
+            message: "Fetching All User Data",
+            data: user
+        })
+
+    } catch (error) {
+        console.log("Error in fetching User Details");
+        res.status(400).json({
+            success: false,
+            message: "Error fetching Data!!"
+        })
+    }
+}
+
+
 
 exports.register = async (req, res) => {
     try {
-        const { error, value } = validateUser.validate(req.body);
+        const { error, value } = validation.validate(req.body);
 
         // Validation failed
         if (error) {

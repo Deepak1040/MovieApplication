@@ -7,8 +7,8 @@ const ticketSchema = new mongoose.Schema({
         required: true
     },
     column: {
-        type: [Number][Number],
+        type: [[Number]],
         required: true
     },
-    
+
 })

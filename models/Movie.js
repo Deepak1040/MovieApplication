@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const Joi = require('joi')
 
 const movieSchema = new mongoose.Schema({
     name: {

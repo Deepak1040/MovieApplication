@@ -7,8 +7,8 @@ const router = express.Router();
 
 router.get('/movies', getAllMovies);
 router.get('/getMovieById', getMovieById);
-router.post('./createMovie', createMovie);
-router.put('./updateMovie/:id', updateMovie);
-router.delete('./deleteMovie/:id', deleteMovie);
+router.post('/createMovie', createMovie);
+router.put('/updateMovie/:id', updateMovie);
+router.delete('/deleteMovie/:id', deleteMovie);
 
 module.exports = router;

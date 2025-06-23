@@ -1,5 +1,7 @@
 const Movie = require('../models/Movie')
 
+// add feature to add theater by its name not by its id
+
 
 exports.createMovie = async (request, response) => {
     try {
@@ -30,6 +32,53 @@ exports.createMovie = async (request, response) => {
         })
     }
 }
+
+
+// const Movie = require('../models/Movie');
+// const Theater = require('../models/Theater');
+
+// exports.addMovie = async (req, res) => {
+//   try {
+//     const { name, duration, screen, leadActors, theaterName } = req.body;
+
+//     // 1. Find the theater by name
+//     const theater = await Theater.findOne({ name: theaterName });
+
+//     if (!theater) {
+//       return res.status(404).json({
+//         success: false,
+//         message: `No theater found with name: ${theaterName}`
+//       });
+//     }
+
+//     // 2. Create the movie with theater's _id
+//     const movie = await Movie.create({
+//       name,
+//       duration,
+//       screen,
+//       leadActors,
+//       theater: theater._id
+//     });
+
+//     // 3. Push movie into theater's movies array
+//     theater.movies.push(movie._id);
+//     await theater.save();
+
+//     res.status(201).json({
+//       success: true,
+//       message: "Movie created and linked to theater by name",
+//       data: movie
+//     });
+
+//   } catch (error) {
+//     res.status(500).json({
+//       success: false,
+//       message: "Error creating movie",
+//       error: error.message
+//     });
+//   }
+// };
+
 
 
 exports.getAllMovies = async (request, response) => {
